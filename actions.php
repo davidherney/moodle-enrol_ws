@@ -206,27 +206,35 @@ function enrol_ws_action_enrol () {
         return false;
     }
 
+    if ($CFG->authpreventaccountcreation) {
+        echo $OUTPUT->notification(get_string('msg_authpreventaccountcreation', 'enrol_ws'), 'notifymessage');
+    }
+
     foreach ($users as $student) {
         if (!isset($enrolled[$student->username])) {
             $user = $DB->get_record('user', array('username'=> $student->username));
 
             if (!$user) {
-                $new_user = new stdClass();
-                $new_user->username = $student->username;
-                $new_user->firstname = $student->firstname;
-                $new_user->lastname = $student->lastname;
-                $new_user->institution = $student->institution;
-                $new_user->address = $student->address;
-                $new_user->city = $student->city;
-                $new_user->phone1 = $student->phone1;
-                $new_user->phone2 = $student->phone2;
-                $new_user->email = $student->email;
-                $new_user->url = $student->web;
 
-                // It is not possible, needed change by Country code
-                //$new_user->county = $student->county;
+                if (!$CFG->authpreventaccountcreation) {
+                    $new_user = new stdClass();
+                    $new_user->username = $student->username;
+                    $new_user->firstname = $student->firstname;
+                    $new_user->lastname = $student->lastname;
+                    $new_user->institution = $student->institution;
+                    $new_user->address = $student->address;
+                    $new_user->city = $student->city;
+                    $new_user->phone1 = $student->phone1;
+                    $new_user->phone2 = $student->phone2;
+                    $new_user->email = $student->email;
+                    $new_user->url = $student->web;
 
-                $user = enrol_ws_create_user($new_user);
+                    // It is not possible, needed change by Country code
+                    //$new_user->county = $student->county;
+
+                    $user = enrol_ws_create_user($new_user);
+                }
+
             }
             else if ($user->deleted) {
                 $DB->set_field('user', 'deleted', 0, array('username'=> $student->username));
@@ -241,7 +249,7 @@ function enrol_ws_action_enrol () {
         }
     }
 
-    echo $OUTPUT->notification(get_string('msg_successful_enrol', 'enrol_ws'), 'notifymessage');
+    echo $OUTPUT->notification(get_string('msg_successful_enrol', 'enrol_ws'), 'notifysuccess');
 
     return true;
 }

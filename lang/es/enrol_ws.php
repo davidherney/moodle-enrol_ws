@@ -55,5 +55,6 @@ $string['msg_error_not_new_students'] = 'No hay usuarios por matricular o desmat
 $string['old_users'] = 'Usuarios previamente matriculados';
 $string['msg_error_not_old_students'] = 'No hay usuarios matriculados actualmente de los obtenidos por la consulta';
 $string['msg_error_manual_not_available'] = 'La matricula manual no está habilitada para este curso.';
-$string['msg_error_not_create_user'] = 'El usuario $a no ha podido ser creado';
+$string['msg_error_not_create_user'] = 'El usuario {$a} no ha podido ser creado';
 $string['msg_successful_enrol'] = 'La matrícula ha sido realizada exitosamente';
+$string['msg_authpreventaccountcreation'] = 'Tenga en cuenta que en este momento no se pueden crear cuentas al matricular usuarios, si algún usuario no existe en la plataforma actualmente entonces no podrá ser matriculado.';
